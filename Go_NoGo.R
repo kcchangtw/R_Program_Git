@@ -17,3 +17,16 @@ PP<-function(a0, b0, a1, b1, n0, n1, x0, x1, delta, alternative = "go"){
   }
   
 }
+
+# Setting initial parameters
+a0 = 0.5
+b0 = 0.5
+a1 = 0.5
+b1 = 0.5
+n0 = 10
+n1 = 20
+x0 = 0.2 * n0
+delta_go = 0.1
+threshold_go = 0.7
+delta_nogo = 0
+threshold_nogo = 0.9
