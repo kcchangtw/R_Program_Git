@@ -30,3 +30,19 @@ delta_go = 0.1
 threshold_go = 0.7
 delta_nogo = 0
 threshold_nogo = 0.9
+
+x1 = 0:n1
+
+# Loop for Two Sample Posterior with "go" alternative
+for(i in x1){
+  two_sample_posterior_go = PP(a0 = a0, b0 = b0, a1 = a1, b1 = b1, n0 = n0, n1 = n1, x0 = x0, x1 = i, delta = delta_go, alternative = "go")
+  if(two_sample_posterior_go >= threshold_go)
+    print(paste0("x1 = ", i, " ,Two Sample Posterior go = ", two_sample_posterior_go))
+}
+
+# Loop for Two Sample Posterior with "no_go" alternative
+for(i in x1){
+  two_sample_posterior_nogo = PP(a0 = a0, b0 = b0, a1 = a1, b1 = b1, n0 = n0, n1 = n1, x0 = x0, x1 = i, delta = delta_nogo, alternative = "no_go")
+  if(two_sample_posterior_nogo >= threshold_nogo)
+    print(paste0("x1 = ", i, " ,Two Sample Posterior no_go = ", two_sample_posterior_nogo))
+}
