@@ -130,5 +130,15 @@ for(j in 0:n0){
   
 }
 
-save(matrix_Go_NoGo, file = "matrix_Go_NoGo.RData")
+#matrix to array
+mut_preprocess <- as.data.frame(matrix_Go_NoGo)
+row_no <- nrow(mut_preprocess)
+col_no <- ncol(mut_preprocess)
+colnames(mut_preprocess) <- factor(paste0("rc", 0:(col_no - 1)))
+mut_preprocess_tidy <- mut_preprocess %>%  gather(key = "rc", value = "value")
+mut_preprocess_tidy$rt <- rep(factor(paste0("rt", 0:(row_no - 1))), col_no)
+
+array_Go_NoGo <- data.frame(rc = mut_preprocess_tidy$rc, rt = mut_preprocess_tidy$rt, decision = mut_preprocess_tidy$value)
+
+save(array_Go_NoGo, file = "array_Go_NoGo.RData")
 

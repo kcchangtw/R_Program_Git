@@ -5,20 +5,12 @@ library("ggplot2")
 #library("ggthemes")
 
 
-load(file = "matrix_Go_NoGo.RData")
-
-#matrix to array
-mut_preprocess <- as.data.frame(matrix_Go_NoGo)
-row_no <- nrow(mut_preprocess)
-col_no <- ncol(mut_preprocess)
-colnames(mut_preprocess) <- factor(paste0("rc", 0:(col_no - 1)))
-mut_preprocess_tidy <- mut_preprocess %>%  gather(key = "rc", value = "value")
-mut_preprocess_tidy$rt <- rep(factor(paste0("rt", 0:(row_no - 1))), col_no)
+load(file = "array_Go_NoGo.RData")
 
 #Plot the graph preprocess
-mut <- mut_preprocess_tidy#array_Go_NoG0
+mut <- array_Go_NoGo#array_Go_NoG0
 mut <- as.data.frame(mut)
-names(mut) <- c("rc", "decision", "rt")
+names(mut) <- c("rc", "rt", "decision")
 
 mut$rc <- factor(mut$rc, levels = unique(mut$rc))
 mut$rt <- factor(mut$rt, levels = unique(mut$rt))
