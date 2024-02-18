@@ -1,0 +1,41 @@
+rm(list=ls())
+#Two sample posterior probability on difference
+PP<-function(a0, b0, a1, b1, n0, n1, x0, x1, delta, alternative = "go"){
+  # Prior distribution for control: beta(a0,b0)
+  # Prior distribution for experimental: beta(a1,b1)
+  # Posterior distribution for control: beta(a0+x0, b0+n0-x0)
+  # Posterior distribution for experimental: beta(a1+x1, b1+n1-x1)
+  # Number of randomly simulated data: K
+  # Sample size in exp: n1, sample size in control: n0
+ 
+  K<-100000
+  emp<- rbeta(K, a1 + x1, b1 + n1 - x1) - rbeta(K, a0 + x0, b0 + n0 - x0)
+  #cdf<-ecdf(emp)
+  if(alternative == "green"){
+    return(sum(emp >= delta)/K)
+  }else if(alternative == "red"){
+    return(sum(emp < delta)/K)
+  }
+  #return(length(emp[emp>=delta])/K)
+}
+
+a0 = 0.02
+b0 = 0.08
+a1 = 0.02
+b1 = 0.08
+n0 = 10
+n1 = 20
+x0 =  2
+delta = 0.15
+method="green"
+
+x1 = 0:n1
+
+for(i in x1){
+  two_sample_posterior = PP(a0 = a0, b0 = b0, a1 = a1, b1 = b1, n0 =
+                              n0, n1 = n1, x0 = x0, x1 = i, delta = delta, alternative = method)
+  #  if(two_sample_posterior < 0.65){
+  print(paste0("x1 = ", i, " ,Two Sample Posterior = ", two_sample_posterior, ", x1/n1 = ", i/n1))
+  #break
+  #  }
+}
