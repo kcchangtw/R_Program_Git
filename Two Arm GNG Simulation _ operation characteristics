@@ -1,0 +1,56 @@
+#Two Arm GNG Simulation_OC
+
+rm(list=ls())
+
+# s: # of simulations
+s <- 10000
+
+a1 <- 0.02
+b1 <- 0.08
+a0 <- 0.02
+b0 <- 0.08
+
+n0 <- 20
+n1 <- 40
+r0 <- 0.2
+r1 <- c(0.2, 0.3, 0.35, 0.4)
+
+bound_green <- 0.7
+bound_red <- 0.7
+
+r1_simu_n <- length(r1)
+
+#for Green
+delta1 <- 0.15
+#for red
+delta2 <- 0.05
+
+for(r1_simu_i in 1:r1_simu_n){
+
+  x0 <- rbinom(s, n0, r0)
+  x1 <- rbinom(s, n1, r1[r1_simu_i])
+
+  PP1 <- numeric(s)
+  PP2 <- numeric(s)
+
+  for (i in 1:s){
+ 
+    K<-1000
+    emp <- rbeta(K, a1 + x1[i], b1 + n1 - x1[i]) - rbeta(K, a0 + x0[i],
+                                                       b0 + n0 - x0[i])
+    PP1[i] <- sum(emp >= delta1)/K
+    PP2[i] <- sum(emp < delta2)/K
+ 
+  }
+
+
+  pdiff1 <- sum(PP1 >= bound_green)/s
+  pdiff2 <- sum(PP2 >= bound_red)/s
+
+  print(paste0("r1=",r1[r1_simu_i]))
+  #Go
+  print(pdiff1)
+  #NoGo
+  print(pdiff2)
+
+}
